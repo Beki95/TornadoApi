@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+
+  server:
+    build: .
+    volumes:
+      - .:/workdir
+    container_name: server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - mongo_db
+    environment:
+      - MONGODB_URL=mongodb://mongo_db:27017/
+
+  mongo_db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - db_data:/data/db
+      - mongo-config:/data/configdb
+    container_name: mongo_db
+
+
+
+volumes:
+  db_data:
+  mongo-config:
